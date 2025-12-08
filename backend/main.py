@@ -1,5 +1,5 @@
 # backend/main.py
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 import uvicorn
 import os 
 import pandas as pd
@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 from modules.df_tools import read_db, write_db, initialize_db
 from typing import List
+import random
 load_dotenv()
 
 # modèles pydantic
@@ -60,6 +61,31 @@ def read_all_quotes():
     return df.reset_index().rename(columns={'id':'id','text':'text'}).to_dict('records')
 
 
+@app.get("/read/{id}", response_model=QuoteResponse)
+def read_specific_quotes(id : int):
+    # il me faut toutes les citations pour les connaitres
+    df = read_db()
+    # filtre par l'id concerné
+    if id not in df.index:
+        raise HTTPException(status_code=404, detail=f"Citation avec ID {id} non trouvée")
+    quote_data = df.loc[id].to_dict()
+    quote_data['id'] = id
+    # retourne les résultats
+    return quote_data
+
+@app.get("/read/random/", response_model=QuoteResponse)
+def read_random_quotes():
+    # il me faut toutes les citations pour les connaitres
+    df = read_db()
+    # filtre par l'id concerné  
+    if df.empty:
+        raise HTTPException(status_code=404, detail=f"Citation avec aléatoire non trouvée")
+    
+    random_id = random.choice(df.index)
+    quote_data = df.loc[random_id].to_dict()
+    quote_data['id'] = random_id
+    # retourne les résultats
+    return quote_data
 
 if __name__ == "__main__":
     # 1 - on récupère le port de l'API

@@ -21,7 +21,8 @@ mon_projet/
 │   ├── app.py
 │   └── pages
 │       ├── 0_insérer.py
-│       └── 1_Afficher.py
+│       ├── 1_Afficher.py
+│       └── 2_Rechercher.py
 ├── README.md
 ├── .env
 ├── .venv
