@@ -16,6 +16,9 @@ with st.form("insert_form"):
     submitted = st.form_submit_button("Ajouter la citation")
 
     if submitted:
+        if new_quote_text == "":
+            new_quote_text = "null quote"
+        
         data = {"text":new_quote_text}
         st.info("envoi à l'API")
 

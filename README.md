@@ -11,6 +11,10 @@ Un mini programme complet:
 #### Architecture
 ```
 mon_projet/
+├── API
+│   └── sentiment_api.py
+├── APP
+│   └── sentiment_streamlit.py
 ├── backend
 │   ├── modules
 │   │   └── df_tools.py
@@ -22,7 +26,10 @@ mon_projet/
 │   └── pages
 │       ├── 0_insérer.py
 │       ├── 1_Afficher.py
-│       └── 2_Rechercher.py
+│       ├── 2_Rechercher.py
+│       ├── 3_
+│       └── 4_
+├── logs
 ├── README.md
 ├── .env
 ├── .venv

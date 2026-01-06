@@ -5,7 +5,7 @@ import os
 import pandas as pd
 from dotenv import load_dotenv 
 from pydantic import BaseModel
-from modules.df_tools import read_db, write_db, initialize_db
+from .modules.df_tools import read_db, write_db, initialize_db
 from typing import List
 import random
 load_dotenv()
@@ -86,6 +86,13 @@ def read_random_quotes():
     quote_data['id'] = random_id
     # retourne les résultats
     return quote_data
+
+@app.get("/idlist", response_model = QuoteResponse)
+def list_id():
+    df = read_db()
+    if df.empty:
+        raise (HTTPException(status_code=404, detail=f"Pas d'id présent dans la base de données"))
+    
 
 if __name__ == "__main__":
     # 1 - on récupère le port de l'API

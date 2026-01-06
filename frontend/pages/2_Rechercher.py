@@ -10,6 +10,7 @@ load_dotenv()
 API_ROOT_URL =  f"http://{os.getenv('API_BASE_URL')}:{os.getenv('FAST_API_PORT', '8080')}"
 
 
+
 st.title("Lire une citation")
 
 mode = st.radio("Choisissez le mode de recherche:",
@@ -64,6 +65,20 @@ else:
                     st.success(f"Citation avec ID {quote_id}")
                     st.info(result.get('text', 'text non trouvé'))
                     st.balloons()
+                    #analyser la citation obtenue avec l'api d'analyse de sentiment
+                    analyse_submit = st.form_submit_button("Analyser la citation")
+                    if analyse_submit :
+                        try :
+                            response = requests.post("http://127.0.0.1:9000/analyse_sentiment/", json={"texte": result.get('text')})
+                            sentiment = response.json()
+                            st.write("Résultats de l'analyse :")
+                            st.write(f"Polarité négative : {sentiment['neg']}")
+                            st.write(f"Polarité neutre : {sentiment['neu']}")
+                            st.write(f"Polarité positive : {sentiment['pos']}")
+                            st.write(f"Score composé : {sentiment['compound']}")
+                        except :
+                            st.error(f"ERREUR : Impossible de se connecter à l'API SENTIMENT")
+                            
                 else:
                     st.warning(f"La citation {quote_id} n'est pas disponible dans la DB")
             else:

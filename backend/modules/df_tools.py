@@ -10,6 +10,7 @@ def write_db(df: pd.DataFrame):
 
 def read_db()->pd.DataFrame:
     df = pd.read_csv(CSV_FILE_PATH, index_col='id')
+    df.text = df.text.fillna("Vide")
     return df
 
 def initialize_db():
