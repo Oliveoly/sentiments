@@ -1,5 +1,5 @@
 #### Installation des bibliothèques
-`pip install fastapi uvicorn loguru streamlit requests python-dotenv`
+`pip install fastapi uvicorn loguru streamlit requests python-dotenv sqlalchemy`
 
 Un mini programme complet:
 * **frontend** (streamlit)
@@ -11,10 +11,6 @@ Un mini programme complet:
 #### Architecture
 ```
 mon_projet/
-├── API
-│   └── sentiment_api.py
-├── APP
-│   └── sentiment_streamlit.py
 ├── backend
 │   ├── modules
 │   │   └── df_tools.py
@@ -26,10 +22,7 @@ mon_projet/
 │   └── pages
 │       ├── 0_insérer.py
 │       ├── 1_Afficher.py
-│       ├── 2_Rechercher.py
-│       ├── 3_
-│       └── 4_
-├── logs
+│       └── 2_Rechercher.py
 ├── README.md
 ├── .env
 ├── .venv

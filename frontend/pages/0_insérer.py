@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_ROOT_URL =  f"http://{os.getenv('API_BASE_URL')}:{os.getenv('FAST_API_PORT', '8080')}"
+API_ROOT_URL =  f"http://{os.getenv('API_BASE_URL')}:{os.getenv('FAST_API_PORT', '8000')}"
 API_URL =  API_ROOT_URL + "/insert"
 
 st.title("Insérer une nouvelle citation")
@@ -16,9 +16,6 @@ with st.form("insert_form"):
     submitted = st.form_submit_button("Ajouter la citation")
 
     if submitted:
-        if new_quote_text == "":
-            new_quote_text = "null quote"
-        
         data = {"text":new_quote_text}
         st.info("envoi à l'API")
 

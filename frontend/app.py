@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_ROOT_URL =  f"http://{os.getenv('API_BASE_URL')}:{os.getenv('FAST_API_PORT', '8080')}"
+API_ROOT_URL =  f"http://{os.getenv('API_BASE_URL')}:{os.getenv('FAST_API_PORT', '8000')}"
 
 st.title("Démonstration d'API avec FastAPI et Streamlit")
 

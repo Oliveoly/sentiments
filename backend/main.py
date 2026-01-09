@@ -4,19 +4,21 @@ import uvicorn
 import os 
 import pandas as pd
 from dotenv import load_dotenv 
-from pydantic import BaseModel
-from .modules.df_tools import read_db, write_db, initialize_db
-from typing import List
+from pydantic import BaseModel, Field
+
+from backend.modules.db_tools import read_db, write_db, initialize_db
+from typing import List, Annotated
+
 import random
 load_dotenv()
 
 # modèles pydantic
 class QuoteRequest(BaseModel):
-    text : str
+    text : str = Field(min_length=1, description="donnez un texte pour la citation")
 
 class QuoteResponse(BaseModel):
     id : int
-    text : str    
+    text : str
 
 # creation si besoin de la base de données
 initialize_db()
@@ -49,7 +51,7 @@ def insert_quote(quote : QuoteRequest):
 
     # 3.2 enregistrer le fichier csv
     df = pd.concat([df, new_row])
-    write_db(df)
+    write_db(new_row)
 
     # 4. pour la confirmation je vais envoyer à l'application
     # la citation avec son id
@@ -86,13 +88,6 @@ def read_random_quotes():
     quote_data['id'] = random_id
     # retourne les résultats
     return quote_data
-
-@app.get("/idlist", response_model = QuoteResponse)
-def list_id():
-    df = read_db()
-    if df.empty:
-        raise (HTTPException(status_code=404, detail=f"Pas d'id présent dans la base de données"))
-    
 
 if __name__ == "__main__":
     # 1 - on récupère le port de l'API

@@ -10,7 +10,15 @@ def write_db(df: pd.DataFrame):
 
 def read_db()->pd.DataFrame:
     df = pd.read_csv(CSV_FILE_PATH, index_col='id')
-    df.text = df.text.fillna("Vide")
+    for index, row in df.iterrows() : 
+        for col in df.columns:
+            if pd.isna(row[col]):
+                logger.info(f"NaN trouvé à la ligne {index}, colonne '{col}' remplacé par la valeur 'NULL'")
+                df.loc[index, col] = "NULL_REPLACEMENT_VALUE"
+    return df
+
+def get_all_quotes(file_path: str):
+    df = pd.read_csv(file_path)
     return df
 
 def initialize_db():
